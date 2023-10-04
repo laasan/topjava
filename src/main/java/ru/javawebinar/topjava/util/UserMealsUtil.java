@@ -31,13 +31,22 @@ public class UserMealsUtil {
     public static List<UserMealWithExcess> filteredByCycles(List<UserMeal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
         // TODO return filtered list with excess. Implement by cycles
         List<UserMealWithExcess> filteredMeals = new ArrayList<>();
-        for (UserMeal meal : meals) {
+//        for (UserMeal meal : meals) {
+//            if (meal.getDateTime().getHour() > startTime.getHour() &
+//                    meal.getDateTime().getHour() < endTime.getHour() &
+//                    meal.getCalories() > caloriesPerDay) {
+//                filteredMeals.add(new UserMealWithExcess(meal.getDateTime(), meal.getDescription(), meal.getCalories(), true));
+//            }
+//        }
+
+        meals.forEach(meal -> {
             if (meal.getDateTime().getHour() > startTime.getHour() &
                     meal.getDateTime().getHour() < endTime.getHour() &
                     meal.getCalories() > caloriesPerDay) {
                 filteredMeals.add(new UserMealWithExcess(meal.getDateTime(), meal.getDescription(), meal.getCalories(), true));
             }
-        }
+        });
+
         return filteredMeals;
     }
 
