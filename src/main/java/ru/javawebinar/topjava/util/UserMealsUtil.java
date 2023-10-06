@@ -3,13 +3,11 @@ package ru.javawebinar.topjava.util;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.model.UserMealWithExcess;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class UserMealsUtil {
@@ -65,6 +63,9 @@ public class UserMealsUtil {
 //                        meal.getCalories(),
 //                        true)));
 //        return filteredMeals;
+        Map<LocalDate, Integer> caloriesSumPerDay = meals.stream().collect(Collectors.groupingBy(meal -> meal.getDateTime().toLocalDate(),
+                        Collectors.summingInt(meal -> meal.getCalories())));
+
         return meals
                 .stream()
                 .filter(meal -> meal.getDateTime().getHour() > startTime.getHour() &
@@ -72,7 +73,7 @@ public class UserMealsUtil {
                         meal.getCalories() > caloriesPerDay)
                 .map(meal -> new UserMealWithExcess(meal.getDateTime(),
                             meal.getDescription(),
-                            meal.getCalories(),
+                            caloriesSumPerDay.get(meal.getDateTime().toLocalDate()),
                             true))
                 .collect(Collectors.toList());
     }
